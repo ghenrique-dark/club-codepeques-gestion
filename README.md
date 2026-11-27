@@ -117,7 +117,7 @@ Los correos salen desde la cuenta del Club o del administrador, por SMTP:
    SMTP_HOST=smtp.gmail.com
    SMTP_PORT=465
    SMTP_USER=correo.del.club@gmail.com
-   SMTP_PASS=las16letrassinespacios
+   SMTP_PASS=contraseña-de-aplicacion-de-16-letras
    ```
 4. En **Configuración** del sistema, escribe el **correo del administrador**: recibe un resumen después de cada envío, y las respuestas de los padres llegan ahí.
 
