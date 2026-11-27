@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+.netlify
+# Datos personales de las familias: nunca al repositorio
+datos-iniciales.sql
+*.xlsx
+.DS_Store
