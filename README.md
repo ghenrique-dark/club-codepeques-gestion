@@ -90,7 +90,7 @@ npm run probar-mensajes
    git add .
    git commit -m "Sistema de gestión del Club"
    git branch -M main
-   git remote add origin https://github.com/guzcategui-a11y/club-codepeques-gestion.git
+   git remote add origin https://github.com/ghenrique-dark/club-codepeques-gestion.git
    git push -u origin main
    ```
 3. Revisa en GitHub que **no** aparezcan `.env` ni `datos-iniciales.sql`. El archivo `.gitignore` ya los excluye.
