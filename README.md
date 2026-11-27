@@ -69,7 +69,7 @@ Abre <http://localhost:5173> e inicia sesión con el usuario del paso 1.4. Así 
 npm install -g netlify-cli
 netlify dev
 ```
-Abre <http://localhost:8888> (no el 5173). Ahí funcionan los botones **Enviar ahora** y **Enviar correo**. Con `npm run dev` la web funciona, pero los envíos no: el sistema te lo avisa. Para ejecutar a mano la revisión que en Netlify corre cada hora:
+Abre <http://localhost:8888>. Ahí funciona el botón **Enviar ahora**. Para ejecutar a mano la revisión que en Netlify corre cada hora:
 ```bash
 netlify functions:invoke enviar-programadas
 ```
@@ -129,29 +129,19 @@ Con otro proveedor (Outlook, el correo de la academia) se usan sus datos SMTP.
 Si las variables de WhatsApp están vacías, cada envío programado deja el mensaje de WhatsApp **preparado**. En **Notificaciones → Ver detalle** aparece un botón **Abrir WhatsApp** por familia, con el mensaje ya escrito; solo hay que pulsar Enviar. También está **Envío manual y vista previa** para escribirle a cualquier familia en cualquier momento.
 
 ### Opción B: automático con la API oficial de WhatsApp (Meta)
-La app **WhatsApp Business** del teléfono no permite que un sistema envíe mensajes solo. Para eso hace falta la **WhatsApp Business Platform (Cloud API)** de Meta:
-
-- **Registro:** cuenta de Meta Business y una app en <https://developers.facebook.com>. Registrarse no cuesta.
-- **Costo:** Meta cobra **cada mensaje automático** (plantilla de categoría “Utilidad”). Para Venezuela, que entra en “Resto de América Latina”, ronda un centavo de dólar por mensaje; consulta la tarifa vigente en la página de precios de Meta. Hace falta una tarjeta internacional en la cuenta de Meta.
-- **Número:** con la conexión directa a Meta (la que usa este sistema), el número **no puede seguir en la app** de WhatsApp. Lo recomendable es un número aparte solo para avisos. Mantener el mismo número en la app y en la API a la vez (“coexistencia”) requiere contratar un proveedor intermediario de Meta, que suele cobrar una mensualidad, y adaptar el código a su API.
-- **Plantilla:** el texto debe ser aprobado por Meta antes del primer envío.
-
-Pasos (número aparte, conexión directa):
+WhatsApp solo permite mensajes automáticos iniciados por la empresa a través de su **WhatsApp Business Platform (Cloud API)**. Exige una cuenta de Meta Business, un número de teléfono dedicado (no puede estar en uso en la app normal de WhatsApp), **plantillas aprobadas por Meta** y tiene **costo por mensaje** según las tarifas de Meta. Resumen:
 
 1. En <https://developers.facebook.com> crea una app de tipo **Business** y agrega el producto **WhatsApp**.
-2. Agrega y verifica el número nuevo (recibe un código por SMS o llamada), y anota el **Phone number ID**.
-3. En Meta Business, agrega un **método de pago** a la cuenta de WhatsApp.
-4. Crea un **token permanente**: Configuración del negocio → Usuarios del sistema → nuevo usuario con rol de administrador → Generar token con los permisos `whatsapp_business_messaging` y `whatsapp_business_management`.
-5. En **WhatsApp Manager → Plantillas de mensajes**, crea una plantilla de categoría **Utilidad**, idioma **español**, llamada `estado_cuenta_club`, con este cuerpo:
+2. Registra y verifica el número del Club, y anota el **Phone number ID**.
+3. Crea un **token permanente** (usuario del sistema en Meta Business, con permisos `whatsapp_business_messaging`).
+4. En **WhatsApp Manager → Plantillas de mensajes**, crea una plantilla de categoría **Utilidad**, idioma **español**, llamada `estado_cuenta_club`, con este cuerpo:
    ```
    Hola, {{1}}. Le escribimos del Club de Ingeniería Codepeques con el estado de cuenta de {{2}}: {{3}}. Saldo pendiente total: {{4}} USD. Si ya realizó el pago, por favor envíenos el comprobante. ¡Gracias!
    ```
    El sistema llena: {{1}} representante, {{2}} estudiantes, {{3}} resumen por estudiante y {{4}} saldo total.
-6. Cuando Meta la apruebe, agrega en Netlify `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_TEMPLATE=estado_cuenta_club` y `WHATSAPP_TEMPLATE_LANG=es`, y vuelve a publicar.
+5. Cuando Meta la apruebe, agrega en Netlify `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_TEMPLATE=estado_cuenta_club` y `WHATSAPP_TEMPLATE_LANG=es`, y vuelve a publicar.
 
 Desde ese momento, los envíos con WhatsApp marcado salen solos. Si algo falla, el detalle del envío muestra el error de Meta.
-
-> **No uses herramientas “gratuitas” no oficiales** que automatizan WhatsApp Web o la app (bots, extensiones, librerías que leen un código QR). Violan los términos de WhatsApp y el número puede ser bloqueado de forma permanente.
 
 ## 7. Uso de cada mes
 
