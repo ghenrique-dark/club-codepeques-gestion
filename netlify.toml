@@ -5,6 +5,10 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Estos valores no son secretos (servidor SMTP público de Gmail, puerto y nombre
+  # visible del Club) y aparecen a propósito en la documentación y en la web.
+  # SMTP_USER y SMTP_PASS siguen protegidos por el escaneo de secretos.
+  SECRETS_SCAN_OMIT_KEYS = "SMTP_HOST,SMTP_PORT,MAIL_FROM_NAME"
 
 [functions]
   node_bundler = "esbuild"
